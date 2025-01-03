@@ -18,7 +18,7 @@ class Player extends Character {
             myImageDead = PLAYER_PICTURE_DEAD;
 
         super(game, width, height, x, y, speed, myImage, myImageDead);
-        this.lives = PLAYER_LIVES; //TASK2
+        this.lives = PLAYER_LIVES;
     }
 
     /**
@@ -47,17 +47,20 @@ class Player extends Character {
     /**
      * Kill the player
      */
-    collide() {  
+    collide() {
         if (!this.dead) {
-            this.lives--; 
-            document.getElementById("livesli").innerHTML = `Lives: ${this.lives}`;  
+            this.lives--; // Reduce lives by 1 when hit
+            document.getElementById("livesli").innerHTML = `Lives: ${this.lives}`; // Update the lives display in UI
+
             if (this.lives > 0) {
+                // Temporarily "kill" the player but revive after 2 seconds
                 super.collide();
                 setTimeout(() => {
-                    this.dead = false; 
-                    this.image.src = PLAYER_PICTURE; 
-                }, 2000); 
+                    this.dead = false; // Revive the player
+                    this.image.src = PLAYER_PICTURE; // Restore original image
+                }, 2000); // 2-second delay before reviving
             } else {
+                // If no lives left, end the game
                 this.game.endGame();
             }
         }
